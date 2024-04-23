@@ -19,7 +19,6 @@ const doctor = new mongoose.Schema({
     },
     certificate: {
         type: String,
-        required: true,
         trim: true
     },
     rating: {
@@ -57,117 +56,77 @@ const doctor = new mongoose.Schema({
     },
     pupils: {
         all: {
-            type: Number,
-            trim: true,
-        },
-        success: {
-            type: Number,
+            type: String,
             trim: true
         },
-        sub: {
-            english: {
-                cefr_b1: {
-                    type: Number,
-                    trim: true
-                },
-                cefr_b2: {
-                    type: Number,
-                    trim: true
-                },
-                cefr_c1: {
-                    type: Number,
-                    trim: true
-                },
-                ielts_5_5: {
-                    type: Number,
-                    trim: true
-                },
-                ielts_6: {
-                    type: Number,
-                    trim: true
-                },
-                ielts_6_5: {
-                    type: Number,
-                    trim: true
-                },
-                ielts_7: {
-                    type: Number,
-                    trim: true
-                },
-                ielts_7_5: {
-                    type: Number,
-                    trim: true
-                },
-                ielts_8: {
-                    type: Number,
-                    trim: true
-                },
-                ielts_8_5: {
-                    type: Number,
-                    trim: true
-                },
-                ielts_9: {
-                    type: Number,
-                    trim: true
-                },
-                isEntered: {
-                    type: Number,
-                    trim: true
-                }
+        isEntered: {
+            type: String,
+            trim: true
+        },
+        english: {
+            cefr_b1: {
+                type: String,
+                trim: true
             },
-            otherSubject: {
-                cefr_b1: {
-                    type: Number,
-                    trim: true
-                },
-                cefr_b2: {
-                    type: Number,
-                    trim: true
-                },
-                cefr_c1: {
-                    type: Number,
-                    trim: true
-                },
-                isEntered: {
-                    type: Number,
-                    trim: true
-                }
+            cefr_b2: {
+                type: String,
+                trim: true
+            },
+            cefr_c1: {
+                type: String,
+                trim: true
+            },
+            ielts_5_5: {
+                type: String,
+                trim: true
+            },
+            ielts_6: {
+                type: String,
+                trim: true
+            },
+            ielts_6_5: {
+                type: String,
+                trim: true
+            },
+            ielts_7: {
+                type: String,
+                trim: true
+            },
+            ielts_7_5: {
+                type: String,
+                trim: true
+            },
+            ielts_8: {
+                type: String,
+                trim: true
+            },
+            ielts_8_5: {
+                type: String,
+                trim: true
+            },
+            ielts_9: {
+                type: String,
+                trim: true
+            }
+        },
+        otherSubject: {
+            cefr_b1: {
+                type: String,
+                trim: true
+            },
+            cefr_b2: {
+                type: String,
+                trim: true
+            },
+            cefr_c1: {
+                type: String,
+                trim: true
             }
         }
     }
 });
 
 const Doctor = mongoose.model('Doctor', doctor);
-
-function subject (sub) {
-    if (sub.body.job == "english") {
-        return {
-            english: {
-                cefr_b1: Number(sub.body.eng_cefr_b1),
-                cefr_b2: Number(sub.body.eng_cefr_b2),
-                cefr_c1: Number(sub.body.eng_cefr_c1),
-                ielts_5_5: Number(sub.body.eng_ielts_5_5),
-                ielts_6: Number(sub.body.eng_ielts_6),
-                ielts_6_5: Number(sub.body.eng_ielts_6_5),
-                ielts_7: Number(sub.body.eng_ielts_7),
-                ielts_7_5: Number(sub.body.eng_ielts_7_5),
-                ielts_8: Number(sub.body.eng_ielts_8),
-                ielts_8_5: Number(sub.body.eng_ielts_8_5),
-                ielts_9: Number(sub.body.eng_ielts_9),
-                isEntered: Number(sub.body.successful)
-            }
-        }
-    } else {
-        return {
-            otherSubject: {
-                cefr_b1: Number(sub.body.oth_cefr_b1),
-                cefr_b2: Number(sub.body.oth_cefr_b2),
-                cefr_c1: Number(sub.body.oth_cefr_c1),
-                isEntered: Number(sub.body.successful)
-            }
-        }
-    }
-}
 
 router.post('/', async (req, res) => {
 
@@ -183,9 +142,26 @@ router.post('/', async (req, res) => {
         image: req.body.image,
         certificate: req.body.certificate,
         pupils: {
-            all: Number(req.body.pupil),
-            success: 0,
-            sub: subject(req)
+            all: req.body.pupil,
+            isEntered: req.body.successful,
+            english: {
+                cefr_b1: req.body.eng_cefr_b1,
+                cefr_b2: req.body.eng_cefr_b2,
+                cefr_c1: req.body.eng_cefr_c1,
+                ielts_5_5: req.body.eng_ielts_5_5,
+                ielts_6: req.body.eng_ielts_6,
+                ielts_6_5: req.body.eng_ielts_6_5,
+                ielts_7: req.body.eng_ielts_7,
+                ielts_7_5: req.body.eng_ielts_7_5,
+                ielts_8: req.body.eng_ielts_8,
+                ielts_8_5: req.body.eng_ielts_8_5,
+                ielts_9: req.body.eng_ielts_9
+            },
+            otherSubject: {
+                cefr_b1: req.body.oth_cefr_b1,
+                cefr_b2: req.body.oth_cefr_b2,
+                cefr_c1: req.body.oth_cefr_c1
+            }
         }
     });
     await doctor.save();
