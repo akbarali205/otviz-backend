@@ -193,7 +193,7 @@ router.post('/', async (req, res) => {
                 cefr_b1: Number(req.body.oth_cefr_b1),
                 cefr_b2: Number(req.body.oth_cefr_b2),
                 cefr_c1: Number(req.body.oth_cefr_c1),
-                isEntered: Number(req.body.pupils.otherSubject.successful)
+                isEntered: Number(req.body.successful)
             }
         }
     });
