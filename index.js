@@ -14,7 +14,7 @@ winston.add(new winston.transports.Console());
 const rating = require('./src/rating');
 app.use(express.json());
 app.use(cors());
-app.use('/doc', rating);
+app.use('/teacher', rating);
 
 mongoose.connect('mongodb+srv://akbarali:akbarali2206@cluster0.1t6ltwf.mongodb.net/otviz?retryWrites=true&w=majority')
     .then(() => {
