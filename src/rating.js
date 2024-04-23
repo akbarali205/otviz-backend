@@ -10,7 +10,7 @@ const doctor = new mongoose.Schema({
         minlength: 3,
         maxlength: 30
     },
-    fistName: {
+    firstName: {
         type: String,
         required: true,
         trim: true,
@@ -25,13 +25,11 @@ const doctor = new mongoose.Schema({
     rating: {
         num: {
             type: Number,
-            trim: true,
-            default: 0
+            trim: true
         },
         stars: {
             type: Number,
-            trim: true,
-            default: 0
+            trim: true
         }
     },
     job: {
@@ -53,12 +51,7 @@ const doctor = new mongoose.Schema({
         trim: true
     },
     certificate: {
-        type: Number,
-        required: true,
-        trim: true
-    },
-    success: {
-        type: Number,
+        type: String,
         required: true,
         trim: true
     },
@@ -71,88 +64,74 @@ const doctor = new mongoose.Schema({
             type: Number,
             trim: true
         },
-        english: {
-            cefr_b1: {
-                type: Number,
-                trim: true,
-                default: 0
+        sub: {
+            english: {
+                cefr_b1: {
+                    type: Number,
+                    trim: true
+                },
+                cefr_b2: {
+                    type: Number,
+                    trim: true
+                },
+                cefr_c1: {
+                    type: Number,
+                    trim: true
+                },
+                ielts_5_5: {
+                    type: Number,
+                    trim: true
+                },
+                ielts_6: {
+                    type: Number,
+                    trim: true
+                },
+                ielts_6_5: {
+                    type: Number,
+                    trim: true
+                },
+                ielts_7: {
+                    type: Number,
+                    trim: true
+                },
+                ielts_7_5: {
+                    type: Number,
+                    trim: true
+                },
+                ielts_8: {
+                    type: Number,
+                    trim: true
+                },
+                ielts_8_5: {
+                    type: Number,
+                    trim: true
+                },
+                ielts_9: {
+                    type: Number,
+                    trim: true
+                },
+                isEntered: {
+                    type: Number,
+                    trim: true
+                }
             },
-            cefr_b2: {
-                type: Number,
-                trim: true,
-                default: 0
-            },
-            cefr_c1: {
-                type: Number,
-                trim: true,
-                default: 0
-            },
-            ielts_5_5: {
-                type: Number,
-                trim: true,
-                default: 0
-            },
-            ielts_6: {
-                type: Number,
-                trim: true,
-                default: 0
-            },
-            ielts_6_5: {
-                type: Number,
-                trim: true,
-                default: 0
-            },
-            ielts_7: {
-                type: Number,
-                trim: true,
-                default: 0
-            },
-            ielts_7_5: {
-                type: Number,
-                trim: true,
-                default: 0
-            },
-            ielts_8: {
-                type: Number,
-                trim: true,
-                default: 0
-            },
-            ielts_8_5: {
-                type: Number,
-                trim: true,
-                default: 0
-            },
-            ielts_9: {
-                type: Number,
-                trim: true,
-                default: 0
-            },
-            isEntered: {
-                type: Number,
-                trim: true,
-                default: 0
-            }
-        },
-        otherSubject: {
-            cefr_b1: {
-                type: Number,
-                trim: true,
-                default: 0
-            },
-            cefr_b2: {
-                type: Number,
-                trim: true,
-                default: 0
-            },
-            cefr_c1: {
-                type: Number,
-                trim: true,
-                default: 0
-            },
-            isEntered: {
-                type: Number,
-                trim: true,
-                default: 0
+            otherSubject: {
+                cefr_b1: {
+                    type: Number,
+                    trim: true
+                },
+                cefr_b2: {
+                    type: Number,
+                    trim: true
+                },
+                cefr_c1: {
+                    type: Number,
+                    trim: true
+                },
+                isEntered: {
+                    type: Number,
+                    trim: true
+                }
             }
         }
     }
@@ -160,10 +139,41 @@ const doctor = new mongoose.Schema({
 
 const Doctor = mongoose.model('Doctor', doctor);
 
+function subject (sub) {
+    if (sub.body.job == "english") {
+        return {
+            english: {
+                cefr_b1: Number(sub.body.eng_cefr_b1),
+                cefr_b2: Number(sub.body.eng_cefr_b2),
+                cefr_c1: Number(sub.body.eng_cefr_c1),
+                ielts_5_5: Number(sub.body.eng_ielts_5_5),
+                ielts_6: Number(sub.body.eng_ielts_6),
+                ielts_6_5: Number(sub.body.eng_ielts_6_5),
+                ielts_7: Number(sub.body.eng_ielts_7),
+                ielts_7_5: Number(sub.body.eng_ielts_7_5),
+                ielts_8: Number(sub.body.eng_ielts_8),
+                ielts_8_5: Number(sub.body.eng_ielts_8_5),
+                ielts_9: Number(sub.body.eng_ielts_9),
+                isEntered: Number(sub.body.successful)
+            }
+        }
+    } else {
+        return {
+            otherSubject: {
+                cefr_b1: Number(sub.body.oth_cefr_b1),
+                cefr_b2: Number(sub.body.oth_cefr_b2),
+                cefr_c1: Number(sub.body.oth_cefr_c1),
+                isEntered: Number(sub.body.successful)
+            }
+        }
+    }
+}
+
 router.post('/', async (req, res) => {
+
     const doctor = new Doctor({
         name: req.body.name,
-        firsName: req.body.firsName,
+        firstName: req.body.firstName,
         rating: {
             num: 0,
             stars: 0
@@ -175,26 +185,7 @@ router.post('/', async (req, res) => {
         pupils: {
             all: Number(req.body.pupil),
             success: 0,
-            english: {
-                cefr_b1: Number(req.body.eng_cefr_b1),
-                cefr_b2: Number(req.body.eng_cefr_b2),
-                cefr_c1: Number(req.body.eng_cefr_c1),
-                ielts_5_5: Number(req.body.eng_ielts_5_5),
-                ielts_6: Number(req.body.eng_ielts_6),
-                ielts_6_5: Number(req.body.eng_ielts_6_5),
-                ielts_7: Number(req.body.eng_ielts_7),
-                ielts_7_5: Number(req.body.eng_ielts_7_5),
-                ielts_8: Number(req.body.eng_ielts_8),
-                ielts_8_5: Number(req.body.eng_ielts_8_5),
-                ielts_9: Number(req.body.eng_ielts_9),
-                isEntered: Number(req.body.eng_successful)
-            },
-            otherSubject: {
-                cefr_b1: Number(req.body.oth_cefr_b1),
-                cefr_b2: Number(req.body.oth_cefr_b2),
-                cefr_c1: Number(req.body.oth_cefr_c1),
-                isEntered: Number(req.body.successful)
-            }
+            sub: subject(req)
         }
     });
     await doctor.save();
