@@ -162,8 +162,8 @@ const Doctor = mongoose.model('Doctor', doctor);
 
 router.post('/', async (req, res) => {
     const doctor = new Doctor({
-        name: req.body.firstName,
-        firsName: req.body.lastName,
+        name: req.body.name,
+        firsName: req.body.firsName,
         rating: {
             num: 0,
             stars: 0
@@ -173,27 +173,27 @@ router.post('/', async (req, res) => {
         image: req.body.image,
         certificate: req.body.certificate,
         pupils: {
-            all: req.body.pupil,
+            all: Number(req.body.pupil),
             success: 0,
             english: {
-                cefr_b1: req.body.eng.cefr_b1,
-                cefr_b2: req.body.eng.cefr_b2,
-                cefr_c1: req.body.eng.cefr_c1,
-                ielts_5_5: req.body.eng.ielts_5_5,
-                ielts_6: req.body.eng.ielts_6,
-                ielts_6_5: req.body.eng.ielts_6_5,
-                ielts_7: req.body.eng.ielts_7,
-                ielts_7_5: req.body.eng.ielts_7_5,
-                ielts_8: req.body.eng.ielts_8,
-                ielts_8_5: req.body.eng.ielts_8_5,
-                ielts_9: req.body.eng.ielts_9,
-                isEntered: req.body.eng.successful
+                cefr_b1: Number(req.body.eng_cefr_b1),
+                cefr_b2: Number(req.body.eng_cefr_b2),
+                cefr_c1: Number(req.body.eng_cefr_c1),
+                ielts_5_5: Number(req.body.eng_ielts_5_5),
+                ielts_6: Number(req.body.eng_ielts_6),
+                ielts_6_5: Number(req.body.eng_ielts_6_5),
+                ielts_7: Number(req.body.eng_ielts_7),
+                ielts_7_5: Number(req.body.eng_ielts_7_5),
+                ielts_8: Number(req.body.eng_ielts_8),
+                ielts_8_5: Number(req.body.eng_ielts_8_5),
+                ielts_9: Number(req.body.eng_ielts_9),
+                isEntered: Number(req.body.eng_successful)
             },
             otherSubject: {
-                cefr_b1: req.body.oth_cefr_b1,
-                cefr_b2: req.body.oth_cefr_b2,
-                cefr_c1: req.body.oth_cefr_c1,
-                isEntered: req.body.pupils.otherSubject.successful
+                cefr_b1: Number(req.body.oth_cefr_b1),
+                cefr_b2: Number(req.body.oth_cefr_b2),
+                cefr_c1: Number(req.body.oth_cefr_c1),
+                isEntered: Number(req.body.pupils.otherSubject.successful)
             }
         }
     });
@@ -223,5 +223,31 @@ router.get('/:id', async (req, res) => {
     console.log(doctor);
     res.json(doctor);
 });
+
+const post = {
+    certificate: "cefr_c2 ielts_9",
+    eng_cefr_b1: "10",
+    eng_cefr_b2: "10",
+    eng_cefr_c1: "10",
+    eng_cefr_c2: "10",
+    eng_ielts_5_5: "10",
+    eng_ielts_6: "10",
+    eng_ielts_6_5: "10",
+    eng_ielts_7: "10",
+    eng_ielts_7_5: "10",
+    eng_ielts_8: "10",
+    eng_ielts_8_5: "13",
+    eng_ielts_9: "11",
+    firstName: "Muminov",
+    job: "english",
+    name: "Baxtiyor",
+    pupil: "10",
+    skill: "5yil+",
+    successful: "35",
+
+    oth_cefr_b1: "10",
+    oth_cefr_b2: "10",
+    oth_cefr_c1: "10"
+}
 
 module.exports = router;
