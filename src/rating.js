@@ -224,30 +224,4 @@ router.get('/:id', async (req, res) => {
     res.json(doctor);
 });
 
-const post = {
-    certificate: "cefr_c2 ielts_9",
-    eng_cefr_b1: "10",
-    eng_cefr_b2: "10",
-    eng_cefr_c1: "10",
-    eng_cefr_c2: "10",
-    eng_ielts_5_5: "10",
-    eng_ielts_6: "10",
-    eng_ielts_6_5: "10",
-    eng_ielts_7: "10",
-    eng_ielts_7_5: "10",
-    eng_ielts_8: "10",
-    eng_ielts_8_5: "13",
-    eng_ielts_9: "11",
-    firstName: "Muminov",
-    job: "english",
-    name: "Baxtiyor",
-    pupil: "10",
-    skill: "5yil+",
-    successful: "35",
-
-    oth_cefr_b1: "10",
-    oth_cefr_b2: "10",
-    oth_cefr_c1: "10"
-}
-
 module.exports = router;
