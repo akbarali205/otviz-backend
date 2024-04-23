@@ -213,7 +213,7 @@ router.put('/rating', async (req, res) => {
     res.send(doctor);
 });
 router.get('/', async (req, res) => {
-    const doctor = await Doctor.find({}).sort({ skill: 1 });
+    const doctor = await Doctor.find({});
     console.log(doctor);
     res.json(doctor);
 });
