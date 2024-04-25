@@ -16,7 +16,7 @@ app.use(express.json());
 app.use(cors());
 app.use('/teacher', rating);
 
-mongoose.connect('mongodb+srv://akbarali:akbarali2206@cluster0.1t6ltwf.mongodb.net/otviz?retryWrites=true&w=majority')
+mongoose.connect('mongodb+srv://akbarali:akbarali2206@cluster0.1t6ltwf.mongodb.net/educrm?retryWrites=true&w=majority')
     .then(() => {
          console.log('Mongodbga muvaffiqyatli ulanildi...');
     })

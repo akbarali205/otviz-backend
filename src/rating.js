@@ -2,7 +2,7 @@ const mongoose = require('mongoose');
 const express = require('express');
 const router = express.Router();
 
-const doctor = new mongoose.Schema({
+const teacherSchema = new mongoose.Schema({
     name: {
         type: String,
         required: true,
@@ -126,11 +126,11 @@ const doctor = new mongoose.Schema({
     }
 });
 
-const Doctor = mongoose.model('Doctor', doctor);
+const Teacher = mongoose.model('Teacher', teacherSchema);
 
 router.post('/', async (req, res) => {
 
-    const doctor = new Doctor({
+    const teacher = new Teacher({
         name: req.body.name,
         firstName: req.body.firstName,
         rating: {
@@ -164,57 +164,31 @@ router.post('/', async (req, res) => {
             }
         }
     });
-    await doctor.save();
-    res.json(doctor);
+    await teacher.save();
+    res.json(teacher);
 });
 
 router.put('/rating', async (req, res) => {
-    const doctor1 = await Doctor.findById(req.body.id);
-    const doctor = await Doctor.findByIdAndUpdate(req.body.id, {
+    const teacher1 = await Teacher.findById(req.body.id);
+    const teacher = await Teacher.findByIdAndUpdate(req.body.id, {
         rating: {
-            num: doctor1.rating.num + 1,
-            stars: doctor1.rating.stars + req.body.stars
+            num: teacher1.rating.num + 1,
+            stars: teacher1.rating.stars + req.body.stars
         }
     });
-    console.log(doctor);
-    res.send(doctor);
+    console.log(teacher);
+    res.send(teacher);
 });
 router.get('/', async (req, res) => {
-    const doctor = await Doctor.find({});
-    console.log(doctor);
-    res.json(doctor);
+    const teacher = await Teacher.find({});
+    console.log(teacher);
+    res.json(teacher);
 });
 
 router.get('/:id', async (req, res) => {
-    const doctor = await Doctor.findById(req.params.id);
-    console.log(doctor);
-    res.json(doctor);
+    const teacher = await Teacher.findById(req.params.id);
+    console.log(teacher);
+    res.json(teacher);
 });
-
-const post = {
-    certificate: "cefr_c2 ielts_9",
-    eng_cefr_b1: "10",
-    eng_cefr_b2: "10",
-    eng_cefr_c1: "10",
-    eng_cefr_c2: "10",
-    eng_ielts_5_5: "10",
-    eng_ielts_6: "10",
-    eng_ielts_6_5: "10",
-    eng_ielts_7: "10",
-    eng_ielts_7_5: "10",
-    eng_ielts_8: "10",
-    eng_ielts_8_5: "13",
-    eng_ielts_9: "11",
-    firstName: "Muminov",
-    job: "english",
-    name: "Baxtiyor",
-    pupil: "10",
-    skill: "5yil+",
-    successful: "35",
-
-    oth_cefr_b1: "10",
-    oth_cefr_b2: "10",
-    oth_cefr_c1: "10"
-}
 
 module.exports = router;
