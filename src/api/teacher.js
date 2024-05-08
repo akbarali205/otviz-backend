@@ -166,6 +166,7 @@ router.post('/', async (req, res) => {
     });
     await teacher.save();
     res.json(teacher);
+    console.log("Post Teacher", teacher);
 });
 
 router.put('/rating', async (req, res) => {
@@ -176,19 +177,19 @@ router.put('/rating', async (req, res) => {
             stars: teacher1.rating.stars + req.body.stars
         }
     });
-    console.log(teacher);
     res.send(teacher);
+    console.log("Teacher rating up");
 });
 router.get('/', async (req, res) => {
     const teacher = await Teacher.find({});
-    console.log(teacher);
     res.json(teacher);
+    console.log("Teacher-Get-All");
 });
 
 router.get('/:id', async (req, res) => {
     const teacher = await Teacher.findById(req.params.id);
-    console.log(teacher);
     res.json(teacher);
+    console.log("Teacher-Get-Id");
 });
 
-module.exports = router;
+module.exports.router = router;
