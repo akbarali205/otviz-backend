@@ -51,6 +51,11 @@ const lidSchema = new mongoose.Schema({
         type: String,
         required: true,
         trim: true
+    },
+    about: {
+        type: String,
+        required: true,
+        trim: true
     }
     
 })
@@ -82,7 +87,8 @@ router.post('/', async (req, res) => {
         parentsNumber: req.body.parentsNumber,
         sub1: req.body.sub1,
         sub2: req.body.sub2,
-        free: req.body.free
+        free: req.body.free,
+        about: req.body.about
     });
     const result = await lid.save();
     res.send(result);
