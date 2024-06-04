@@ -93,16 +93,28 @@ const pupilSchema = mongoose.Schema({
 
 const Pupil = mongoose.model('Pupil', pupilSchema);
 
+
+// populate('lists.list')
+// populate(
+//  {
+//    path: "lists",
+//    populate : {
+//      path: "list",
+//      model: "List"
+//    }
+//  }
+// )
+
 // GET
 router.get('/', async (req, res) => {
-    const pupils = await Pupil.find().populate('teacher');
+    const pupils = await Pupil.find().populate(['subjects.group', 'teacher']);
     res.send(pupils);
     console.log("Pupil-Get-All");
 });
 
 // GET ID
 router.get('/:id', async (req, res) => {
-    const pupils = await Pupil.findById(req.params.id).populate('teacher');
+    const pupils = await Pupil.findById(req.params.id).populate(['subjects.group', 'teacher']);
     res.send(pupils);
     console.log("Pupil-Get-Id");
 });
