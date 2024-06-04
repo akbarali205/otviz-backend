@@ -4,6 +4,7 @@ const cors = require("cors");
 const lids = require('../api/lid').router;
 const pupils = require('../api/pupil').router;
 const teacher = require('../api/teacher').router;
+const group = require('../api/group').router;
 
 
 module.exports = function (app) {
@@ -15,4 +16,5 @@ module.exports = function (app) {
     app.use('/teachers', teacher);
     app.use("/lids", lids);
     app.use("/pupils", pupils);
+    app.use("/groups", group);
 }

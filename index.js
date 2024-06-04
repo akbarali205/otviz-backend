@@ -8,13 +8,20 @@ process.on("unhandledRejection", ex => {
 });
 
 app.get('/', (req, res) => {
-    res.send('Hello World!');
+    if(!req.headers.salom) {
+        return res.status(401).send("Blya davay");
+    }
+    if(req.headers.salom === "hello world") {
+        return res.status(200).send("Davayti");
+    } else {
+        return res.status(401).send({message: "Axti suka"});
+    }
 })
 require('./src/start/routes')(app);
 require('./src/start/db')();
 
 
-const port = process.env.PORT || 4000;
+const port = process.env.PORT || 5000;
 app.listen(port, () => {
     console.log(`Server is running on port ${port}...`);
 })
