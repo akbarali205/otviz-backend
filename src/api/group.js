@@ -9,7 +9,7 @@ const groupSchema = new mongoose.Schema({
         trim: true
     },
     days: {
-        type: String,
+        type: Array,
         required: true,
         trim: true
     },
@@ -24,6 +24,11 @@ const groupSchema = new mongoose.Schema({
         trim: true,
         minlength: 3
     },
+    start: {
+        type: String,
+        required: true,
+        trim: true
+    },
     pupils: {
         type: [{
             type: mongoose.Schema.Types.ObjectId,
@@ -36,14 +41,14 @@ const Group = mongoose.model("Group", groupSchema);
 
 // GET
 router.get('/', async (req, res) => {
-    const groups = await Group.find().populate('pupils');
+    const groups = await Group.find().populate('pupils', ['name', 'surname']);
     res.send(groups);
     console.log("Group-Get-All");
 });
 
 // GET ID
 router.get('/:id', async (req, res) => {
-    const group = await Group.findById(req.params.id).populate('pupils');
+    const group = await Group.findById(req.params.id).populate('pupils',  ['name', 'surname']);
     res.send(group);
     console.log("Group-Get-Id");
 });
