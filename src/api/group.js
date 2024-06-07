@@ -34,6 +34,11 @@ const groupSchema = new mongoose.Schema({
             type: mongoose.Schema.Types.ObjectId,
             ref: "Pupil"
         }]
+    },
+    Teacher: {
+        type: mongoose.Schema.Types.ObjectId,
+        ref: "Teacher",
+        required: true
     }
 });
 

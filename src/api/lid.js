@@ -44,7 +44,6 @@ const lidSchema = new mongoose.Schema({
     },
     sub2: {
         type: String,
-        required: true,
         trim: true
     },
     free: {
