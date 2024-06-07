@@ -34,7 +34,7 @@ const subSchema = new mongoose.Schema({
                     required: true
                 },
                 status: {
-                    type: Boolean,
+                    type: String,
                     required: true
                 }
             }]
@@ -78,8 +78,8 @@ const pupilSchema = mongoose.Schema({
         required: true,
         trim: true
     },
-    subjects: {
-        type: [subSchema],
+    subject: {
+        type: subSchema,
         required: true,
         trim: true
     },
@@ -107,14 +107,14 @@ const Pupil = mongoose.model('Pupil', pupilSchema);
 
 // GET
 router.get('/', async (req, res) => {
-    const pupils = await Pupil.find().populate(['subjects.group', 'teacher']);
+    const pupils = await Pupil.find().populate(['subject.group', 'teacher']);
     res.send(pupils);
     console.log("Pupil-Get-All");
 });
 
 // GET ID
 router.get('/:id', async (req, res) => {
-    const pupils = await Pupil.findById(req.params.id).populate(['subjects.group', 'teacher']);
+    const pupils = await Pupil.findById(req.params.id).populate(['subject.group', 'teacher']);
     res.send(pupils);
     console.log("Pupil-Get-Id");
 });
@@ -124,9 +124,9 @@ router.post('/', async (req, res) => {
     const pupil = new Pupil({
         name: req.body.name,
         surname: req.body.surname,
-        subjects: {
-            name: req.body.subjects.name,
-            group: req.body.subjects.group
+        subject: {
+            name: req.body.subject.name,
+            group: req.body.subject.group
         },
         teacher: req.body.teacher,
         group: req.body.group,
@@ -149,6 +149,10 @@ router.put('/:id', async (req, res) => {
     const result = await Pupil.findByIdAndUpdate(req.params.id, {
         name: req.body.name,
         surname: req.body.surname,
+        subject: {
+            name: req.body.subject.name,
+            group: req.body.subject.group
+        },
         teacher: req.body.teacher,
         group: req.body.group,
         address: req.body.address,
@@ -177,9 +181,23 @@ router.delete('/:id', async (req, res) => {
 
 // DATE
 router.put('/date/:id', async (req, res) => {
-    const result = await Pupil.findOneAndUpdate(
-        { _id: req.params.id, 'subjects.name': req.body.name },
-        { $push: { 'subjects.$.date.davomat': req.body.date } },
+    const result = await Pupil.findByIdAndUpdate(req.params.id,
+        { $push: { 'subject.date.davomat': {date: req.body.date, status: req.body.status} } },
+        { new: true, runValidators: true }
+      );
+    if (!result) {
+        return res.status(500).send("Serverda kutilmagan xato ro'y berdi", result);
+    };
+    res.send(result);
+    console.log("Pupil-Put", result);
+});
+
+
+
+// PAY
+router.put('/pay/:id', async (req, res) => {
+    const result = await Pupil.findByIdAndUpdate(req.params.id,
+        { $push: { 'subject.date.pay': {month: req.body.month, status: req.body.status} } },
         { new: true, runValidators: true }
       );
     if (!result) {
