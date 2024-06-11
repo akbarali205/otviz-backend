@@ -37,13 +37,9 @@ const lidSchema = new mongoose.Schema({
         required: true,
         trim: true
     },
-    sub1: {
+    sub: {
         type: String,
         required: true,
-        trim: true
-    },
-    sub2: {
-        type: String,
         trim: true
     },
     free: {
@@ -84,8 +80,7 @@ router.post('/', async (req, res) => {
         born: req.body.born,
         pNumber: req.body.pNumber,
         parentsNumber: req.body.parentsNumber,
-        sub1: req.body.sub1,
-        sub2: req.body.sub2,
+        sub: req.body.sub,
         free: req.body.free,
         about: req.body.about
     });
@@ -110,8 +105,7 @@ router.put('/:id', async (req, res) => {
         born: req.body.born,
         pNumber: req.body.pNumber,
         parentsNumber: req.body.parentsNumber,
-        sub1: req.body.sub1,
-        sub2: req.body.sub2,
+        sub: req.body.sub,
         free: req.body.free
     }, {
         new: true
